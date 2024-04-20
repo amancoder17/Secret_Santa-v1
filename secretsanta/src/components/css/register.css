@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background: pink;
+    /* font-size: 400; */
+}
+.ss{
+    font-weight: 600;
+}
+.simg{
+    width: 250px;
+}
+
+/*------------ Login container ------------*/
+#oootp{
+    display: none;
+}
+#rgbtn{
+    display: none;
+}
+.box-area{
+    width: 930px;
+}
+
+/*------------ Right box ------------*/
+
+.right-box{
+    padding: 40px 30px 40px 40px;
+
+}
+.left-box{
+    background-color: white;
+}
+
+/*------------ Custom Placeholder ------------*/
+
+::placeholder{
+    font-size: 16px;
+}
+
+.rounded-4{
+    border-radius: 20px;
+}
+.rounded-5{
+    border-radius: 30px;
+}
+.btn{
+    
+    background-color: pink;
+    border-color: purple;
+}
+#resendo{
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
+}
+
+#otfieldfor{
+    display:none;
+    flex-direction: row;
+    align-items: center;
+    
+  }
+  .otp-field input {
+    width: 58px;
+    font-size: 32px;
+    padding: 10px;
+    height: 50px;
+    text-align: center;
+    border-radius: 5px;
+    margin: 2px;
+    border: 2px solid #55525c;
+    background: white;
+    font-weight: 400;
+    color: black;
+    outline: none;
+    transition: all 0.1s;
+  }
+  .otp-field input:focus {
+    border: 2px solid #a527ff;
+    box-shadow: 0 0 2px 2px #a527ff6a;
+  }
+  .disabled {
+    opacity: 0.5;
+  }
+  .space {
+    margin-right: 1rem !important;
+  }
+
+/*------------ For small screens------------*/
+
+@media only screen and (max-width: 768px){
+
+     .box-area{
+        margin: 0 10px;
+
+     }
+     .right-box{
+        padding: 20px;
+     }
+     
+
+}
+@media only screen and (max-width: 1000px){
+    .otp-field input {
+        width: 40px;
+    }
+ 
+    
+
+}
+
+  

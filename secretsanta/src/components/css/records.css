@@ -1,0 +1,50 @@
+.rtemplo{
+    width: 60vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10vh;
+    
+}
+
+.rnamee{
+    width:20vw;
+    padding: 10px 10px 10px 10px;
+    font-size: 1.2rem;
+}
+
+.rename{
+    width:20vw;
+    padding: 10px 10px 10px 10px;
+    font-size: 1.2rem;
+}
+
+.rsemail{
+    width:20vw;
+    padding: 10px 10px 10px 10px;
+    font-size: 1.2rem;
+}
+
+.remname{
+    text-align: center;
+    border: solid black 2px;
+    padding: 10px 10px 10px 10px;
+    font-size: 1.2rem;
+}
+
+.rememail{
+    text-align: center;
+    border: solid black 2px;
+    padding: 10px 10px 10px 10px;
+    font-size: 1.2rem;
+}
+
+.rsaemail{
+    text-align: center;
+    border: solid black 2px;
+    padding: 10px 10px 10px 10px;
+    font-size: 1.2rem;
+}
+.rmaine{
+    height: 100vh;
+    padding-top: 10px;
+}
