@@ -2,7 +2,7 @@
 
 
 podman pod create --name santapod1 \
-       	-p 3001:3000 -p 9003:9002 
+       	-p 3000:3000 -p 9002:9002 
 
 podman run -idt \
        	--pod santapod1 \
