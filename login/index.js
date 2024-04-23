@@ -8,6 +8,8 @@ const app = express();
 const sendMail = require('./mail');
 const sendOtpMail = require('./otpmail')
 const bcrypt = require('bcrypt');
+const fs = require('fs');
+const https = require('https');
 const PORT = process.env.PORT || 9002;
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -21,6 +23,12 @@ app.use(cors())
 // ));
 
 
+const options={
+    key:fs.readFileSync(path.join(__dirname,'/certificates/cert.key')),
+    cert:fs.readFileSync(path.join(__dirname,'/certificates/cert.crt'))
+    }
+
+
 // Connecting Database
 
 mongoose.connect(process.env.DATABASE_URL)
@@ -32,7 +40,7 @@ mongoose.connect(process.env.DATABASE_URL)
 })
 //Connecting Database
 
-// mongoose.connect('mongodb://192.168.1.7:27017/secrets')
+// mongoose.connect('mongodb://192.168.1.205:27017/secrets')
 //     .then(() => {
 //         console.log('DB connected');
 //     })
@@ -370,6 +378,12 @@ app.post('/emplist', async (req, res) => {
 
 // console.log(process.env);
 
-app.listen(PORT, () => {
-    console.log("server is up at port", PORT);
+// app.listen(PORT, () => {
+//     console.log("server is up at port", PORT);
+// })
+
+
+const sslServer=https.createServer(options,app);
+sslServer.listen(PORT,()=>{
+console.log('Secure server is listening on port',PORT)
 })
