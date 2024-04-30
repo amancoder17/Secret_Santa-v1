@@ -36,8 +36,9 @@
    6. [Automating Secret Santa Website](#automating-secret-santa-website)
 
 7. [PlantUML of Secret Santa Website](#plantuml-of-secret-santa-website)
-8. [Comprehensive Overview of Secret Santa Application](#comprehensive-overview-of-secret-santa-application)
-9. [Conclusion](#conclusion)
+8. [Containerization]
+9. [Comprehensive Overview of Secret Santa Application](#comprehensive-overview-of-secret-santa-application)
+10. [Conclusion](#conclusion)
 
 
 ## Abstract
@@ -564,6 +565,148 @@ The PlantUML diagram illustrates the architecture and components of the Secret S
 The diagram provides a visual reference for understanding the Secret Santa Website's architecture, component interactions, and underlying technologies, facilitating better comprehension of its functionalities and implementation details.
 
 ![dLPBSzms3BxhLt1oTpBJGmyvT19xtIOTEt6zgNFe-C2bi5hQ4haXgKqydVxtWWH5FRmIlT5913wyGGBlhEF6jKrT5FPHgZqtl65xBXvv1UpVWk5tZgVAw5QL5xhMXbt9QkTkf7eahZOb6EASrmWj_YkAJi6hzsKZ5Rk5Ibfdk9DQlOfQ__a4tnaFx8EqqZ6t0sO6GFIYWdl2tXXza2Km1GAivUQ9bU2uh6tat_5Qbjm1asghJHFa8-l2W6](https://github.com/Aditi22222/SecretSanta/assets/162342704/62487bba-fb92-4740-9556-291d0a9988cf)
+
+
+# Containerization
+Containerization is a method of packaging, distributing, and running applications and their dependencies within isolated environments called containers. Each container encapsulates the application along with its runtime environment, libraries, and dependencies, ensuring consistency and portability across different computing environments.
+  ## Technologies Used: Podman
+Overview:
+Podman is a containerization tool that provides a Docker-compatible interface for managing containers and images. Unlike Docker, Podman operates as a daemonless container engine, which means it doesn't require a central daemon process running in the background. Instead, containers are managed directly by the user or by system services.
+   ###     Backend Image Creation
+     Dockerfile:
+     Dockerfile
+     Copy code
+    # Use a base image
+    FROM node:20
+
+    # Set working directory
+    WORKDIR /app
+
+    # Copy package.json and package-lock.json
+    COPY ./package*.json ./
+
+    # Install dependencies
+    RUN npm install
+
+    # Copy backend source code into the container
+    COPY . .
+ 
+    # Expose port 9002
+    EXPOSE 9002
+
+    # Command to run the backend server
+    CMD ["npm", "run", "dev"]
+
+   -> Dependencies:
+Express: Web framework for Node.js, used for building APIs and handling HTTP requests.
+Mongoose: 
+MongoDB object modeling tool, used for interacting with MongoDB databases.
+Other dependencies specific to your application, such as authentication libraries, validation middleware, etc.
+Make sure to list these dependencies in your package.json file.
+
+-> Build Process:
+Prepare the Dockerfile: Create a Dockerfile with the provided contents and place it in the root directory of your backend source code.
+
+Define Dependencies: Ensure that your backend application's dependencies are listed in a package.json file in the same directory as the Dockerfile. Include any necessary Node.js packages and libraries required for your application.
+
+Build the Image: Open a terminal or command prompt, navigate to the directory containing the Dockerfile and run the following command to build the backend image:
+
+    podman build -t backend-image .
+This command will build the Docker image using the instructions defined in the Dockerfile and tag it with the name backend-image.
+Verify the Image: Once the build process completes successfully, you can verify that the backend image was created by running:
+
+    podman images
+You should see backend-image listed among the images.
+
+### Frontend Image Creation
+-> Docker File:
+
+    # Use a base image
+    FROM node:20
+
+    # Set working directory
+    WORKDIR /app
+
+    # Copy package.json and package-lock.json
+    COPY ./package*.json ./
+
+    # Install dependencies
+    RUN npm install
+
+    # Copy frontend source code into the container
+    COPY . .
+
+    # Expose port 3000
+    EXPOSE 3000
+
+    # Command to start the frontend server
+    CMD ["npm", "start"]
+
+->  Dependencies:
+React: JavaScript library for building user interfaces.
+React Router: Declarative routing for React applications.
+Axios: Promise-based HTTP client for the browser and Node.js.
+Other dependencies specific to your frontend application, such as state management libraries (Redux, MobX), UI component libraries (Material-UI, Bootstrap), etc.
+Make sure to list these dependencies in your package.json file.
+
+->Build Process:
+Prepare the Dockerfile: Create a Dockerfile with the provided contents and place it in the root directory of your frontend source code.
+
+Define Dependencies: Ensure that your frontend application's dependencies are listed in a package.json file in the same directory as the Dockerfile. Include any necessary Node.js packages and libraries required for your application.
+
+->Build the Image: 
+Open a terminal or command prompt, navigate to the directory containing the Dockerfile and run the following command to build the frontend image:
+Copy code
+       
+    podman build -t frontend-image .
+This command will build the Docker image using the instructions defined in the Dockerfile and tag it with the name frontend-image.
+
+-> Verify the Image: Once the build process completes successfully, you can verify that the frontend image was created by running:
+Copy code
+
+    podman images
+You should see frontend-image listed among the images.
+
+### Pod Creation for running whole application Together:
+
+First we need to create ENV for our database so we can connect it from anywhere weather on local host or on Cluster create an .env file in backend and inside it mention like this
+    ![image](https://github.com/amancoder17/Secret_Santa-v1/assets/97497884/f8201800-8db6-4e74-ac10-863675073193)
+
+Now Create a pod and using port mapping for frontend and backend server:
+     
+     podman pod create --name POD_NAME \
+       	-p 3000:3000 -p 9002:9002 
+ now pod is create a frontend container inside the pod using this 
+      
+      podman run -idt \
+       	--pod POD_NAME \
+       	--name CONTANIER_NAME FRONTEND_IMAGE_NAME
+now create a backend container with Database url as env while creating container using this
+      
+       podman run -itd \
+       	--pod POD_NAME\
+       	-v $(pwd):/app \
+       	--env DATABASE_URL=\
+       	--name BACKEND_CONTAINER_NAME BACKEND_IMAGE_NAME 
+
+Now Check pod is created using this command 
+
+    podman pod ps
+
+Happy using website on your server by entering the URL.
+
+
+
+# Self-Signed SSL Certificate
+
+To make your Network Secure and payloads secure you can use ssl certificate you can use it by Generating these Commands.
+
+       openssl genrsa -out cert.key 2048
+       openssl req -new -key cert.key -out cert.csr
+      openssl x509 -req -days 3650 -in cert.csr -signkey cert.key -out cert.crt
+
+Then attach the generated certificate in your code folder and change the configration according to that.
+
 
  # Comprehensive Overview of Secret Santa Application
  ## Backend: Node.js/Express with MongoDB
