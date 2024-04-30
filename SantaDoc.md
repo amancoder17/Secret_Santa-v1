@@ -36,9 +36,10 @@
    6. [Automating Secret Santa Website](#automating-secret-santa-website)
 
 7. [PlantUML of Secret Santa Website](#plantuml-of-secret-santa-website)
-8. [Containerization]
-9. [Comprehensive Overview of Secret Santa Application](#comprehensive-overview-of-secret-santa-application)
-10. [Conclusion](#conclusion)
+8. [Containerization](#containerization)
+9. [Self-Signed SSL Certificate](#self-signed-ssl-certificate)
+10. [Comprehensive Overview of Secret Santa Application](#comprehensive-overview-of-secret-santa-application)
+11. [Conclusion](#conclusion)
 
 
 ## Abstract
